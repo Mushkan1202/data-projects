@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure
+struct Node {
+    int data;
+    struct Node *prev;
+    struct Node *next;
+};
+
+// Head pointer
+struct Node *head = NULL;
+
+// Function to insert at beginning
+void insertAtBeginning(int value) {
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    newNode->data = value;
+
+    // If list is empty
+    if (head == NULL) {
+        newNode->next = newNode;
+        newNode->prev = newNode;
+        head = newNode;
+    }
+    // If list is not empty
+    else {
+        struct Node *last = head->prev;
+
+        newNode->next = head;
+        newNode->prev = last;
+
+        last->next = newNode;
+        head->prev = newNode;
+
+        head = newNode;
+    }
+}
+
+// Function to display forward
+void displayForward() {
+    struct Node *temp = head;
+
+    if (head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    printf("Forward: ");
+    do {
+        printf("%d <-> ", temp->data);
+        temp = temp->next;
+    } while (temp != head);
+    printf("(back to head)\n");
+}
+
+// Function to display backward
+void displayBackward() {
+    struct Node *temp = head->prev;
+
+    if (head == NULL)
+        return;
+
+    printf("Backward: ");
+    do {
+        printf("%d <-> ", temp->data);
+        temp = temp->prev;
+    } while (temp != head->prev);
+    printf("(back to last)\n");
+}
+
+// Main function
+int main() {
+    insertAtBeginning(10);
+    insertAtBeginning(20);
+    insertAtBeginning(30);
+
+    displayForward();
+    displayBackward();
+
+    return 0;
+}
